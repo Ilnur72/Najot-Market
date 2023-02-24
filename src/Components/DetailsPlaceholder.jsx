@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-// import Header from "./Header";
 
 const DetailsPlaceholder = () => {
   return (
@@ -18,24 +17,24 @@ const DetailsPlaceholder = () => {
               </div>
               <div className="col-md-6 placeholder-glow ">
                 <p aria-hidden="true">
-                  <span class="placeholder col-6"></span>
+                  <span className="placeholder col-6"></span>
                 </p>
                 <p aria-hidden="true">
                   <span class="placeholder col-4"></span>
                 </p>
                 <p aria-hidden="true">
-                  <span class="placeholder col-3"></span>
+                  <span className="placeholder col-3"></span>
                 </p>
                 <div className="d-flex justify-content-between">
                   <p aria-hidden="true">
-                    <span class="placeholder col-3"></span>
+                    <span className="placeholder col-3"></span>
                   </p>
                   <div className="d-flex justify-content-between">
                     <p aria-hidden="true">
-                      <span class="placeholder col-3"></span>
+                      <span className="placeholder col-3"></span>
                     </p>
                     <p aria-hidden="true">
-                      <span class="placeholder col-3"></span>
+                      <span className="placeholder col-3"></span>
                     </p>
                   </div>
                 </div>

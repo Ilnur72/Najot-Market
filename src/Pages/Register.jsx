@@ -7,10 +7,12 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [value, setValue] = useState({
-    name: "",
+    first_name: "",
+    last_name: "",
+    username: "",
     email: "",
     password: "",
-    // confirmPassword: "",
+    password2: "",
   });
 
   useEffect(() => {
@@ -18,27 +20,24 @@ const Register = () => {
     if (token) navigate("/");
   }, []);
 
+  console.log(value); 
   async function handleRegister(e) {
     e.preventDefault();
 
-    if (value.password !== value.confirmPassword) {
+    if (value.password !== value.password2) {
       toast("Passwords do not maych", { type: "error" });
       return;
     }
-
     try {
-      let {
-        data: { token, message },
-      } = await axios.post(
-        "https://xxxx.backendless.app/api/users/register",
+      let { token, message } = await axios.post(
+        "https://medtex.pythonanywhere.com/ru/account/register/",
         value
       );
+      console.log(token);
       axios.defaults.headers.common["Content-Type"] = "application.json";
-
-      axios.defaults.headers.common["x-auth-token"] = `Bearer ${token}`;
+      localStorage.setItem("token", token);
       toast(message, { type: "success" });
       navigate("/");
-      localStorage.setItem("token", token);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -49,26 +48,46 @@ const Register = () => {
   }
 
   return (
-    <section className="register-bg">
-      <div className="container-sm p-5 back">
-        <form onSubmit={handleRegister} className="p-3  shadow mt-5">
+    // <section className="">
+      <div className=" min-vh-100  d-flex align-items-center justify-content-center">
+        <form onSubmit={handleRegister} className="bg-white rounded-3 shadow border w-50 p-3">
           <h1 className="large display-4 text-primary fw-bold">Sign Up</h1>
-          <p className="fw-semibold fs-4 text-white mt-3">
+          <p className="fw-semibold fs-4  mt-3">
             <i className="fas fa-user me-2"></i>Create Your Account
           </p>
           <input
             type="text"
-            className="w-100 register-inp mt-3"
-            name="name"
-            id="name"
+            className="w-100 mt-3 form-control"
+            name="first_name"
+            id="first_name"
             required
-            placeholder="Name"
-            value={value.name}
+            placeholder="First Name"
+            value={value.first_name}
             onChange={handleInputChange}
           />
           <input
             type="text"
-            className="w-100 register-inp mt-3"
+            className="w-100 mt-3 form-control"
+            name="last_name"
+            id="last_name"
+            required
+            placeholder="Last Name"
+            value={value.last_name}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            className="w-100 mt-3 form-control"
+            name="username"
+            id="username"
+            required
+            placeholder="Username"
+            value={value.username}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            className="w-100 mt-3 form-control"
             name="email"
             id="eamil"
             required
@@ -82,7 +101,7 @@ const Register = () => {
           </p>
           <input
             type="password"
-            className="w-100 register-inp mt-3"
+            className="w-100 mt-3 form-control"
             name="password"
             id="password"
             required
@@ -90,19 +109,29 @@ const Register = () => {
             value={value.password}
             onChange={handleInputChange}
           />
+          <input
+            type="password"
+            className="w-100 mt-3 form-control"
+            name="password2"
+            id="password2"
+            required
+            placeholder="Confirm Password"
+            value={value.password2}
+            onChange={handleInputChange}
+          />
           {/* <input type="password" className="form-control mt-3" name='confirmPassword' id='confirmPassword' required placeholder='Confirm Password' value={value.confirmPassword} onChange={handleInputChange}/> */}
-          <button className="btn btn btn-outline-primary mt-4 rounded-3 fs-5 text-white mt-3">
+          <button className="btn btn btn-outline-primary mt-4 rounded-3 fs-5 mt-3">
             Register
           </button>
           <div className="d-flex gap-2 mt-3">
-            <p className="text-white fs-5">Already have an account?</p>
-            <Link to={"/login"} className="tdn fs-5">
+            <p className=" fs-5">Already have an account?</p>
+            <Link to={"/login"} className="fs-5">
               Sign In
             </Link>
           </div>
         </form>
       </div>
-    </section>
+    // </section>
   );
 };
 

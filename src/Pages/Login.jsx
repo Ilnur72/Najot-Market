@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -22,17 +22,18 @@ const Login = () => {
 
     async function handeSubmit(e){
         e.preventDefault();
-
         try {
-            let res = await axios.post("https://reqres.in/api/login", values)
-            if(res.status === 200){
-                toast("Login Succsess", {type: "success"});
+            let {data} = await axios.post("https://medtex.pythonanywhere.com/ru/account/login/", values)
+            if(data.success){
                 setValues({email: "", password: ""})
-                localStorage.setItem("token", res.data.token)
+                toast("Login Succsess", {type: "success"});
+                localStorage.setItem("token", data.data.token.access)
                 navigate("/")
             }
-        } catch (error) {
-            toast(error.response.data.error, {type: "error"});
+        } catch(error){
+            if(error.response.data.status){
+                toast("Sizning loginingiz mavjud emas!", {type: "error"});
+            }
         }
     }
 
@@ -47,8 +48,8 @@ const Login = () => {
 
   return (
     <div className='min-vh-100 text-bg-light d-flex align-items-center justify-content-center '>
-        <form onSubmit={handeSubmit} className='bg-white border w-50 p-3 '>
-            <h1 className='display-1 text-center'>Login</h1>
+        <form onSubmit={handeSubmit} className='bg-white rounded-3 shadow border w-50 p-3 '>
+            <h1 className='display-1 text-primary fw-bold text-start'>Login</h1>
             <div className='my-3 '>
                 <label className='form-label' htmlFor="email">Your email</label>
                 <input required onChange={handleChange} value={values.email} className='form-control' type="email" name="email" id="email" />
@@ -60,6 +61,10 @@ const Login = () => {
             </div>
             <div className='mt-3'>
                 <button disabled={!values.email || !values.password.length > 4} className="btn btn-primary d-block w-100 fs-4">Login</button>
+            </div>
+            <div className='d-flex gap-2 mt-3'>
+                <p className=' fs-5'>if you don't have a login</p>
+                <Link to={"/register"} className="fs-5">Sign up</Link>
             </div>
         </form>
     </div>

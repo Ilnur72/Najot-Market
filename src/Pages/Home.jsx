@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     let token = localStorage.getItem("token")
     if(!token){
-      navigate("/login")
+      navigate("/register")
     }
   }, [])
 

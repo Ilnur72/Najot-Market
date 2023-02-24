@@ -11,12 +11,12 @@ function useProducts(){
             try {
                 setLoading(true)
                 let res = await axios.get("/products")
-                if(unmounted) return;
                 if(res.status === 200){
                     setProducts(res.data)
                 }
+                if(unmounted) return;
             } catch (error) {
-                toast(error.response.data.arror)
+                toast("Sizning loginingiz mavjud emas!", {type: "error"});
             }
             finally{
                 setLoading(false)
